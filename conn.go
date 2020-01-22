@@ -313,7 +313,11 @@ func (c *conn) buildRequest(ctx context.Context, query string, params []driver.V
 	}
 
 	if c.killQueryOnErr && queryID == "" {
-		queryID = uuid.NewV4().String()
+		u, err := uuid.NewV4()
+		if err != nil {
+			return nil, err
+		}
+		queryID = u.String()
 	}
 
 	reqQuery := req.URL.Query()
